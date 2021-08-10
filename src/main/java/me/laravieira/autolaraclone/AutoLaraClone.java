@@ -10,21 +10,22 @@ import static com.github.weisj.darklaf.LafManager.getPreferredThemeStyle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
 
 public class AutoLaraClone extends JFrame {
-    private static final String ALC_CURSE_API_KEY = "697ab003-c27e-4250-a014-bfed4e65414a";
-    private static final String ALC_SOURCE_CODE = "https://github.com/laravieira";
-    private static final String ALC_TITLE = "Auto Lara Clone";
+    public static final String ALC_SOURCE = "https://github.com/laravieira/autolaraclone";
+    public static final String ALC_SITE   = "https://laravieira.me";
+    public static final String ALC_NAME   = "L4R4V131R4";
+    public static final String ALC_TITLE  = "Auto Lara Clone";
+    public static final String ALC_ABOUT  = "About";
 
     public static void main(String[] args) {
         LafManager.install(new DarculaTheme());
         LafManager.themeForPreferredStyle(getPreferredThemeStyle());
-
+        Config.load();
         new Populate();
         new AutoLaraClone();
     }
@@ -65,7 +66,7 @@ public class AutoLaraClone extends JFrame {
 
     private void sourceMenuListener() {
         try {
-            Desktop.getDesktop().browse(URI.create(ALC_SOURCE_CODE));
+            Desktop.getDesktop().browse(URI.create(ALC_SOURCE));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

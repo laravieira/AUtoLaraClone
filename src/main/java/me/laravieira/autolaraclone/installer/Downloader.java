@@ -50,7 +50,7 @@ public class Downloader {
             if(resource instanceof Texture)
                 this.folder = "temp"+File.separator+"resourcepacks"+File.separator;
             if(resource instanceof Shader)
-                this.folder = "temp"+File.separator+"shaderpacks"+File.separator;
+                this.folder = "temp"+File.separator+ "shaderpacks" +File.separator;
             if(resource instanceof Setting)
                 this.folder = "temp"+File.separator+"config"+File.separator;
             new File(folder).mkdirs();
@@ -97,8 +97,6 @@ public class Downloader {
     }
 
     private void downloadFromFabric(Resource resource) throws IOException {
-        if (this.loader.getId() != Resource.FABRIC_LOADER)
-            return;
         String latest = listLinks("https://maven.fabricmc.net/net/fabricmc/fabric-installer/", "/fabric-installer", "", "/").get(0);
         String installer = listLinks(latest, "", "", ".jar").get(0);
         downloadFile(installer);
@@ -106,8 +104,6 @@ public class Downloader {
     }
 
     private void downloadFromForge(Resource resource) throws IOException {
-        if (this.loader.getId() != Resource.FORGE_LOADER)
-            return;
         String url = "https://files.minecraftforge.net/net/minecraftforge/forge/index_"+this.version+".html";
         List<String> links = listLinks(url, "", "=https", ".jar");
         downloadFile(links.get(0));

@@ -4,16 +4,14 @@ import me.laravieira.autolaraclone.resource.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Populate {
-    public static final String ALC_SOURCE_CODE = "https://github.com/laravieira";
-    public static final String ALC_AUTHOR_NAME = "L4R4V131R4";
-    public static final String ALC_AUTHOR_LINK = "https://laravieira.me";
-    public static final String ALC_TITLE = "Auto Lara Clone";
-    public static final String ALC_ABOUT = "About";
 
-    public static ArrayList<Loader>  loaders  = new ArrayList<>();
     public static ArrayList<Version> versions = new ArrayList<>();
+    public static ArrayList<Loader>  loaders  = new ArrayList<>();
     public static ArrayList<Mod>     mods     = new ArrayList<>();
     public static ArrayList<Texture> textures = new ArrayList<>();
     public static ArrayList<Shader>  shaders  = new ArrayList<>();
@@ -27,119 +25,100 @@ public class Populate {
     }
 
     private void populateVersions() {
-        Version v1_17_1 = new Version("1.17.1");
-        versions.add(v1_17_1);
-
-        Version v1_17   = new Version("1.17");
-        versions.add(v1_17);
-
-        Version v1_16_5 = new Version("1.16.5");
-        versions.add(v1_16_5);
+        List<String> versions = (List<String>)Config.config.getObject("versions");
+        versions.forEach(a -> {Populate.versions.add(new Version(a));});
     }
 
     private void populateLoaders() {
-        Loader fabricLoader = new Loader("Fabric Loader");
-        fabricLoader.setId(Resource.FABRIC_LOADER);
-        fabricLoader.setPage("https://fabricmc.net");
-        fabricLoader.setTip("load all the mods");
-        fabricLoader.setChecked(true);
-        fabricLoader.setProvider(Resource.FABRIC_PROVIDER);
-        loaders.add(fabricLoader);
-
-        Loader forgeLoader = new Loader("Forge Loader");
-        forgeLoader.setId(Resource.FORGE_LOADER);
-        forgeLoader.setPage("https://files.minecraftforge.net/net/minecraftforge/forge/");
-        forgeLoader.setTip("load all the mods");
-        forgeLoader.setChecked(true);
-        forgeLoader.setProvider(Resource.FORGE_PROVIDER);
-        loaders.add(forgeLoader);
+        Map<String, Object> loaders = (Map<String, Object>)Config.config.getObject("loaders");
+        loaders.forEach((k, v) -> {
+            Config data = new Config(v);
+            Loader loader = new Loader(k, data.getString("name"));
+            loader.setPage(data.getString("page"));
+            if(data.has("tip"))
+                loader.setTip(data.getString("tip"));
+            if(data.has("selected"))
+                loader.setChecked(data.getBoolean("selected"));
+            loader.setProvider(providerByName(data.getString("provider")));
+            if(loader.getProvider() == Resource.FILE_PROVIDER) {
+                String path = "files"+File.separator+"resourcepacks"+File.separator+data.getString("file");
+                loader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
+            }
+            Populate.loaders.add(loader);
+        });
     }
 
     private void populateMods() {
-        Mod fabricAPI = new Mod(306612, "Fabric API");
-        fabricAPI.setPage("https://www.curseforge.com/minecraft/mc-mods/fabric-api");
-        fabricAPI.setTip("is required by some mods");
-        fabricAPI.setLoaders(new int[]{Resource.FABRIC_LOADER});
-        mods.add(fabricAPI);
-
-        Mod modMenu = new Mod(308702, "Mod Menu");
-        modMenu.setPage("https://www.curseforge.com/minecraft/mc-mods/modmenu");
-        modMenu.setTip("add mods menu on game menu");
-        modMenu.setLoaders(new int[]{Resource.FABRIC_LOADER});
-        mods.add(modMenu);
-
-        Mod sodium = new Mod(237553513, "Sodium");
-        sodium.setPage("https://github.com/CaffeineMC/sodium-fabric/releases");
-        sodium.setTip("FPS boost mod");
-        sodium.setLoaders(new int[]{Resource.FABRIC_LOADER});
-        mods.add(sodium);
-
-        Mod iris = new Mod(455508, "Iris");
-        iris.setPage("https://www.curseforge.com/minecraft/mc-mods/irisshaders");
-        iris.setTip("add support to shaders");
-        iris.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(iris);
-
-        Mod entityCulling = new Mod(448233, "Entity Culling");
-        entityCulling.setPage("https://www.curseforge.com/minecraft/mc-mods/entityculling");
-        entityCulling.setTip("improve GPU performance");
-        entityCulling.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(entityCulling);
-
-        Mod fpsReducer = new Mod(280294, "FPS Reducer");
-        fpsReducer.setPage("https://www.curseforge.com/minecraft/mc-mods/fps-reducer");
-        fpsReducer.setTip("slowdown mine when inactive");
-        fpsReducer.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(fpsReducer);
-
-        Mod physics = new Mod(442735, "Physics");
-        physics.setPage("https://www.curseforge.com/minecraft/mc-mods/physics-mod");
-        physics.setTip("add cool physics");
-        physics.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(physics);
-
-        Mod miniHud = new Mod(244260, "Mini HUD");
-        miniHud.setPage("https://www.curseforge.com/minecraft/mc-mods/minihud");
-        miniHud.setTip("show TSP, FPS and more on screen");
-        miniHud.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(miniHud);
-
-        Mod maLiLib = new Mod(303119, "MaLiLib");
-        maLiLib.setPage("https://www.curseforge.com/minecraft/mc-mods/malilib");
-        maLiLib.setTip("is required by MiniHUD");
-        maLiLib.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(maLiLib);
-
-        Mod xaerosMinimap = new Mod(263420, "Xaeros Minimap");
-        xaerosMinimap.setPage("https://www.curseforge.com/minecraft/mc-mods/xaeros-minimap");
-        xaerosMinimap.setTip("best mimi-map");
-        xaerosMinimap.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(xaerosMinimap);
-
-        Mod xaerosWorldmap = new Mod(317780, "Xaeros Worldmap");
-        xaerosWorldmap.setPage("https://www.curseforge.com/minecraft/mc-mods/xaeros-world-map");
-        xaerosWorldmap.setTip("best world-map");
-        xaerosWorldmap.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(xaerosWorldmap);
-
-        Mod inventoryProfilesNext = new Mod(495267, "Inventory Profiles Next");
-        inventoryProfilesNext.setPage("https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next");
-        inventoryProfilesNext.setTip("auto sort inventories");
-        inventoryProfilesNext.setLoaders(new int[]{Resource.FABRIC_LOADER, Resource.FORGE_LOADER});
-        mods.add(inventoryProfilesNext);
+        Map<String, Object> mods = (Map<String, Object>)Config.config.getObject("mods");
+        mods.forEach((k, v) -> {
+            Config data = new Config(v);
+            Mod mod = new Mod(data.getLong("id"), data.getString("name"));
+            mod.setPage(data.getString("page"));
+            List<String> loaders = data.getList("loaders");
+            mod.setLoaders(Populate.loaders.stream().filter(p -> {
+                for(String names : loaders)
+                    if(names.equalsIgnoreCase(p.getIdentifier()))
+                        return true;
+                return false;
+            }).collect(Collectors.toList()).toArray(new Loader[0]));
+            if(data.has("tip"))
+                mod.setTip(data.getString("tip"));
+            if(data.has("selected"))
+                mod.setChecked(data.getBoolean("selected"));
+            mod.setProvider(providerByName(data.getString("provider")));
+            if(mod.getProvider() == Resource.FILE_PROVIDER) {
+                String path = "files"+File.separator+"mods"+File.separator+data.getString("file");
+                mod.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
+            }
+            Populate.mods.add(mod);
+        });
     }
 
     private void populateTextures() {
-        Texture defaultDarkMode = new Texture(349116, "Default Dark Mode");
-        defaultDarkMode.setPage("https://www.curseforge.com/minecraft/texture-packs/default-dark-mode");
-        textures.add(defaultDarkMode);
+        Map<String, Object> textures = (Map<String, Object>)Config.config.getObject("textures");
+        textures.forEach((k, v) -> {
+            Config data = new Config(v);
+            Texture texture = new Texture(data.getLong("id"), data.getString("name"));
+            texture.setPage(data.getString("page"));
+            if(data.has("tip"))
+                texture.setTip(data.getString("tip"));
+            if(data.has("selected"))
+                texture.setChecked(data.getBoolean("selected"));
+            texture.setProvider(providerByName(data.getString("provider")));
+            if(texture.getProvider() == Resource.FILE_PROVIDER) {
+                String path = "files"+File.separator+"resourcepacks"+File.separator+data.getString("file");
+                texture.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
+            }
+            Populate.textures.add(texture);
+        });
     }
 
     private void populateShaders() {
-        Shader sildurs = new Shader("Sildurs");
-        sildurs.setFile(new File("SildursShaders-Vibrant-High-1.283.zip"));
-        sildurs.setPage("https://sildurs-shaders.github.io/downloads/");
-        sildurs.setProvider(Resource.FILE_PROVIDER);
-        shaders.add(sildurs);
+        Map<String, Object> shaders = (Map<String, Object>)Config.config.getObject("shaders");
+        shaders.forEach((k, v) -> {
+            Config data = new Config(v);
+            Shader shader = new Shader(data.getLong("id"), data.getString("name"));
+            shader.setPage(data.getString("page"));
+            if(data.has("tip"))
+                shader.setTip(data.getString("tip"));
+            if(data.has("selected"))
+                shader.setChecked(data.getBoolean("selected"));
+            shader.setProvider(providerByName(data.getString("provider")));
+            if(shader.getProvider() == Resource.FILE_PROVIDER) {
+                String path = "files"+File.separator+"shaderpacks"+File.separator+data.getString("file");
+                shader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
+            }
+            Populate.shaders.add(shader);
+        });
+    }
+
+    private int providerByName(String name) {
+        switch(name) {
+            case "fabric-site": return Resource.FABRIC_PROVIDER;
+            case "forge-site": return Resource.FORGE_PROVIDER;
+            case "curse-forge": return Resource.CURSE_PROVIDER;
+            case "github-release": return Resource.GITHUB_PROVIDER;
+            default: return Resource.FILE_PROVIDER;
+        }
     }
 }

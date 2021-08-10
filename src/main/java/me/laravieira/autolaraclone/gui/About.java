@@ -1,5 +1,6 @@
 package me.laravieira.autolaraclone.gui;
 
+import me.laravieira.autolaraclone.AutoLaraClone;
 import me.laravieira.autolaraclone.Populate;
 import me.laravieira.autolaraclone.resource.Resource;
 
@@ -10,7 +11,7 @@ import java.net.URL;
 
 public class About extends JFrame {
     public About() {
-        this.setTitle(Populate.ALC_ABOUT);
+        this.setTitle(AutoLaraClone.ALC_ABOUT);
         URL favicon = getClass().getClassLoader().getResource("favicon.png");
         this.setIconImage(new ImageIcon(favicon).getImage());
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -40,19 +41,19 @@ public class About extends JFrame {
 
     private String buildContent() {
         String text = "<html>";
-        text += "<h1><strong>"+Populate.ALC_TITLE+"</strong></h1>";
+        text += "<h1><strong>"+AutoLaraClone.ALC_TITLE+"</strong></h1>";
         text += "<br>";
-        text += "<p>This is a simple tool to help "+Populate.ALC_AUTHOR_NAME+" and yours friends to auto setup minecraft mods and update they.</p>";
-        text += "<p>This is a simple tool to help "+Populate.ALC_AUTHOR_NAME+" and yours friends to auto setup minecraft mods and update they.</p>";
-        text += "<p>This auto install all, if you keep they checked, resources that "+Populate.ALC_AUTHOR_NAME+" uses.</p>";
+        text += "<p>This is a simple tool to help "+AutoLaraClone.ALC_NAME+" and yours friends to auto setup minecraft mods and update they.</p>";
+        text += "<p>This is a simple tool to help "+AutoLaraClone.ALC_NAME+" and yours friends to auto setup minecraft mods and update they.</p>";
+        text += "<p>This auto install all, if you keep they checked, resources that "+AutoLaraClone.ALC_NAME+" uses.</p>";
 
         text += buildList("Mods",     Populate.mods.toArray(new Resource[0]));
         text += buildList("Textures", Populate.textures.toArray(new Resource[0]));
         text += buildList("Shaders",  Populate.shaders.toArray(new Resource[0]));
 
         text += "<br><br>";
-        text += "<p>You can check the source code <a href=\""+Populate.ALC_SOURCE_CODE+"\" target=\"_blank\">here</a>.";
-        text += "<br>Made by <a href=\""+Populate.ALC_AUTHOR_LINK+"\" target=\"_blank\">"+Populate.ALC_AUTHOR_NAME+"</a> on 2021. Fell free to help.</p>";
+        text += "<p>You can check the source code <a href=\""+AutoLaraClone.ALC_SOURCE+"\" target=\"_blank\">here</a>.";
+        text += "<br>Made by <a href=\""+AutoLaraClone.ALC_SITE+"\" target=\"_blank\">"+AutoLaraClone.ALC_NAME+"</a> on 2021. Fell free to help.</p>";
         text += "</html>";
         return text;
     }

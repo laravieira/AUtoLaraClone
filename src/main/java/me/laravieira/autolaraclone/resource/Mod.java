@@ -1,9 +1,9 @@
 package me.laravieira.autolaraclone.resource;
 
 public class Mod extends Resource {
-    private int[] loaders;
+    private Loader[] loaders;
 
-    public Mod(int id, String name) {
+    public Mod(long id, String name) {
         super(id, name);
     }
 
@@ -11,26 +11,26 @@ public class Mod extends Resource {
         super(name);
     }
 
-    public int[] loaders() {
+    public Loader[] loaders() {
         return loaders;
     }
 
-    public void setLoaders(int[] loaders) {
+    public void setLoaders(Loader[] loaders) {
         this.loaders = loaders;
     }
 
     public boolean isFabric() {
         boolean is = false;
-        for(int loader : loaders)
-            if(loader == Resource.FABRIC_LOADER)
+        for(Loader loader : loaders)
+            if(loader.getIdentifier() == "fabric")
                 return true;
         return false;
     }
 
     public boolean isForge() {
         boolean is = false;
-        for(int loader : loaders)
-            if(loader == Resource.FORGE_LOADER)
+        for(Loader loader : loaders)
+            if(loader.getIdentifier() == "forge")
                 return true;
         return false;
     }

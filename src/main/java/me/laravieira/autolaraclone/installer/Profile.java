@@ -23,8 +23,8 @@ import java.util.Date;
 public class Profile {
     public final Date   created;
     public final String gameDir;
-    public final String icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB1UlEQVR4nO3dO0oDURxG8TxGfKQJ+GrE3kqwtRXEzsZSsLHLArQSq2zABQimcwEirsLSRkRtRASbqJE8LEPKrxg9yPnV98+9w+E2YcJUNxcORxVh1P76AJpkEBiDwBgExiAwBoExCIxBYAwCYxAYg8AU6cBcvVHGOf6lj0E3nvGGwBgExiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEJj4Rbm33kMJx/ifZovFeMYbAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgEpvjsv0YDz+93JR1l7Ki1Fc90Ok/R+t94jpVmPuMNgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYKpLlbXSv46wvrwdrd/ZG5R0krGry3o8c/tyXcJJJnlDYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAxP/CbZ+dxJvctO+j9VPN73iPymgYLZ8vZuIt0mc/bp3Ge3hDYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQmOpGczd6UW7/YDXepGhkn2utTee/M6WGva94pt/NPqV6cf4Y7+ENgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwC8wPyyC/U00ILbAAAAABJRU5ErkJggg==";
-    public final String javaArgs = "-Xmx3G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M";
+    public String icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB1UlEQVR4nO3dO0oDURxG8TxGfKQJ+GrE3kqwtRXEzsZSsLHLArQSq2zABQimcwEirsLSRkRtRASbqJE8LEPKrxg9yPnV98+9w+E2YcJUNxcORxVh1P76AJpkEBiDwBgExiAwBoExCIxBYAwCYxAYg8AU6cBcvVHGOf6lj0E3nvGGwBgExiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEJj4Rbm33kMJx/ifZovFeMYbAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgEpvjsv0YDz+93JR1l7Ki1Fc90Ok/R+t94jpVmPuMNgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYKpLlbXSv46wvrwdrd/ZG5R0krGry3o8c/tyXcJJJnlDYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAxP/CbZ+dxJvctO+j9VPN73iPymgYLZ8vZuIt0mc/bp3Ge3hDYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQmOpGczd6UW7/YDXepGhkn2utTee/M6WGva94pt/NPqV6cf4Y7+ENgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwC8wPyyC/U00ILbAAAAABJRU5ErkJggg==";
+    public String javaArgs = "-Xmx3G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M";
     public final Date   lastUsed;
     public final String lastVersionId;
     public final String name;

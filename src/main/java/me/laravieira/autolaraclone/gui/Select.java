@@ -6,7 +6,7 @@ import me.laravieira.autolaraclone.Installer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +30,10 @@ public class Select extends JPanel {
         section.setFont(font);
         this.add(alignment(section, FlowLayout.CENTER));
         this.add(alignment(version, FlowLayout.CENTER));
+
+        JTextField dir = new JTextField();
+        dir.setText(System.getenv("APPDATA")+ File.separator+".minecraft");
+        dir.setToolTipText("Set game directory");
 
         JPanel left = new JPanel() {
             @Override

@@ -31,8 +31,8 @@ public class Installer extends Thread {
         this.loader = loader;
         this.preferences = preferences;
 
-        this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft.shignima";
-        if (preferences.get("create-ver-dir"))
+        this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft";
+        if (Config.config.getBoolean("create-versioned-folder"))
             this.gameDir = this.baseDir + File.separator + this.version;
         else this.gameDir = this.baseDir;
         new File(this.gameDir).mkdirs();
@@ -57,7 +57,7 @@ public class Installer extends Thread {
             copy(texture.getFile(), "resourcepacks");
         }for (Shader shader : Populate.shaders) {
             downloader.download(shader);
-            copy(shader.getFile(), "shaderpacks");
+            copy(shader.getFile(), "files/shaderpacks");
         }
 
         // Add new Profile
@@ -67,6 +67,11 @@ public class Installer extends Thread {
         panel.log("Done! You can close this.");
         panel.addProgress(true);
     }
+
+    // Bugs to fix:
+    // 1. did not replace the old versions, just keep it there
+    // 2. downloading forge files instead of fabric
+    // 3. ignore Fabric-API copy action.
 
     private void copy(File file, String path) {
         try {
@@ -92,13 +97,20 @@ public class Installer extends Thread {
     }
 
     private void addProfile(String versionId) {
-        if(!preferences.get("create-profile"))
+        Config profile = Config.config.get("profile");
+        if(!profile.getBoolean("create-new"))
             return;
         try {
-            Profile lara = new Profile("L4R4 "+this.version, this.gameDir, versionId);
+            String name = profile.getString("name");
+            name = profile.getBoolean("concat-verion")? name+" "+this.version:name;
+            Profile lara = new Profile(name, this.gameDir, versionId);
+            if(profile.has("icon"))
+                lara.icon = profile.getString("icon");
+            if(profile.has("java-args"))
+                lara.javaArgs = profile.getString("java-args");
             String path = baseDir+File.separator+"launcher_profiles.json";
             JSONObject profiles = new JSONObject(Files.readString(new File(path).toPath()));
-            profiles.getJSONObject("profiles").put("L4R4", lara.toJSONObject());
+            profiles.getJSONObject("profiles").put(lara.name, lara.toJSONObject());
             FileWriter writer = new FileWriter(path);
             writer.write(profiles.toString());
             writer.close();

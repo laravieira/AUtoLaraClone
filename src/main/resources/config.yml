@@ -1,0 +1,163 @@
+create-versioned-folder: true
+
+profile:
+  create-new: true
+  name: L4R4
+  concat-verion: true # will be concatenated on profile name, ex.: "L4R4" will be "L4R4 1.17.1"
+  icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB1UlEQVR4nO3dO0oDURxG8TxGfKQJ+GrE3kqwtRXEzsZSsLHLArQSq2zABQimcwEirsLSRkRtRASbqJE8LEPKrxg9yPnV98+9w+E2YcJUNxcORxVh1P76AJpkEBiDwBgExiAwBoExCIxBYAwCYxAYg8AU6cBcvVHGOf6lj0E3nvGGwBgExiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEJj4Rbm33kMJx/ifZovFeMYbAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgEpvjsv0YDz+93JR1l7Ki1Fc90Ok/R+t94jpVmPuMNgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYKpLlbXSv46wvrwdrd/ZG5R0krGry3o8c/tyXcJJJnlDYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAxP/CbZ+dxJvctO+j9VPN73iPymgYLZ8vZuIt0mc/bp3Ge3hDYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQmOpGczd6UW7/YDXepGhkn2utTee/M6WGva94pt/NPqV6cf4Y7+ENgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwC8wPyyC/U00ILbAAAAABJRU5ErkJggg==
+  java-args: -Xmx3G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M
+
+versions:
+  - "1.17.1"
+  - "1.17"
+  - "1.16.5"
+
+loaders:
+  fabric:
+    name: Fabric Loader
+    page: https://fabricmc.net
+    tip: load all the mods
+    selected: true
+    provider: fabric-site
+  forge:
+    name: Forger Loader
+    page: https://files.minecraftforge.net/net/minecraftforge/forge/
+    tip: load all the mods
+    selected: false
+    provider: forge-site
+
+textures:
+  default-dark-mode:
+    id: 349116
+    name: Default Dark Mode
+    page: https://www.curseforge.com/minecraft/texture-packs/default-dark-mode
+    selected: true
+    provider: curse-forge
+
+shaders:
+  sildurs:
+    id: 349116
+    name: Sildurs
+    page: https://sildurs-shaders.github.io/downloads/
+    selected: true
+    provider: file
+    file: SildursShaders-Vibrant-High-1.283.zip
+
+mods:
+  fabric-api:
+    id: 306612
+    name: Fabric API
+    selected: true
+    tip: is required by some mods
+    page: https://www.curseforge.com/minecraft/mc-mods/fabric-api
+    provider: curse-forge
+    loaders:
+      - fabric
+  mod-menu:
+    id: 308702
+    name: Mod Menu
+    selected: true
+    provider: curse-forge
+    tip: add mods menu on game menu
+    page: https://www.curseforge.com/minecraft/mc-mods/modmenu
+    loaders:
+      - fabric
+  sodium:
+    id: 237553513
+    name: Sodium
+    selected: true
+    provider: github-release
+    tip: FPS boost mod
+    page: https://github.com/CaffeineMC/sodium-fabric/releases
+    loaders:
+      - fabric
+  iris:
+    id: 455508
+    name: Iris
+    selected: true
+    provider: curse-forge
+    tip: add support to shaders
+    page: https://www.curseforge.com/minecraft/mc-mods/irisshaders
+    loaders:
+      - fabric
+      - forge
+  entity-culling:
+    id: 448233
+    name: Entity Culling
+    selected: true
+    provider: curse-forge
+    tip: improve GPU performance
+    page: https://www.curseforge.com/minecraft/mc-mods/entityculling
+    loaders:
+      - fabric
+      - forge
+  fps-reducer:
+    id: 280294
+    name: FPS Reducer
+    selected: true
+    provider: curse-forge
+    tip: slowdown mine when inactive
+    page: https://www.curseforge.com/minecraft/mc-mods/fps-reducer
+    loaders:
+      - fabric
+      - forge
+  physics:
+    id: 442735
+    name: Physics
+    selected: true
+    provider: curse-forge
+    tip: add cool physics
+    page: https://www.curseforge.com/minecraft/mc-mods/physics-mod
+    loaders:
+      - fabric
+      - forge
+  mini-hud:
+    id: 244260
+    name: Mini HUD
+    selected: true
+    provider: curse-forge
+    tip: show TSP, FPS and more on screen
+    page: https://www.curseforge.com/minecraft/mc-mods/minihud
+    loaders:
+      - fabric
+      - forge
+  malilib:
+    id: 303119
+    name: MaLiLib
+    selected: true
+    provider: curse-forge
+    tip: is required by MiniHUD
+    page: https://www.curseforge.com/minecraft/mc-mods/malilib
+    loaders:
+      - fabric
+      - forge
+  xaeros-minimap:
+    id: 263420
+    name: Xaeros Minimap
+    selected: true
+    provider: curse-forge
+    tip: best mimi-map
+    page: https://www.curseforge.com/minecraft/mc-mods/xaeros-minimap
+    loaders:
+      - fabric
+      - forge
+  xaeros-worldmap:
+    id: 317780
+    name: Xaeros Worldmap
+    selected: true
+    provider: curse-forge
+    tip: best world-map
+    page: https://www.curseforge.com/minecraft/mc-mods/xaeros-world-map
+    loaders:
+      - fabric
+      - forge
+  inventory-profiles-next:
+    id: 495267
+    name: Inventory Profiles Next
+    selected: true
+    provider: curse-forge
+    tip: auto sort inventories
+    page: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next
+    loaders:
+      - fabric
+      - forge
