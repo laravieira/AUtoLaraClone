@@ -24,6 +24,7 @@ public class Installer extends Thread {
     private final Installing panel;
     private final Loader loader;
     private final Map<String, Boolean> preferences;
+    private final Map<String, File> oldMods = new HashMap<>();
 
     public Installer(Installing panel, String version, Loader loader, Map<String, Boolean> preferences) {
         this.panel = panel;
@@ -36,6 +37,20 @@ public class Installer extends Thread {
             this.gameDir = this.baseDir + File.separator + this.version;
         else this.gameDir = this.baseDir;
         new File(this.gameDir).mkdirs();
+
+        getOldModsIdentifies();
+    }
+
+    private void getOldModsIdentifies() {
+        File folder = new File(this.gameDir+File.separator+"mods");
+        if(folder.exists() && folder.isDirectory())
+            Arrays.stream(folder.listFiles()).toList().forEach(f -> {
+                this.oldMods.put(buildModIdentifier(f.getName()), f);
+            });
+    }
+
+    private String buildModIdentifier(String name) {
+        return name.replaceAll("[-1234567890\\._]|(jar)", "");
     }
 
     @Override
@@ -69,8 +84,7 @@ public class Installer extends Thread {
     }
 
     // Bugs to fix:
-    // 1. did not replace the old versions, just keep it there
-    // 2. ignore Fabric-API copy action.
+    // 1. ignore Fabric-API copy action.
 
     private void copy(File file, String path) {
         try {
@@ -78,14 +92,18 @@ public class Installer extends Thread {
                 path = gameDir+File.separator+path+File.separator;
                 new File(path).mkdirs();
 
-                File fnew = new File(path+file.getName());
-                if(fnew.exists()) {
-                    new File(path+"old").mkdirs();
-                    File backup = new File(path+"old"+File.separator+fnew.getName());
-                    Files.move(fnew.toPath(), backup.toPath(), REPLACE_EXISTING);
-                }
+                this.oldMods.forEach((i, f) -> {
+                    if(i.equalsIgnoreCase(buildModIdentifier(file.getName()))) {
+                        try {
+                            String fpath = f.getParent()+File.separator+"old"+File.separator+f.getName();
+                            Files.move(f.toPath(), new File(fpath).toPath(), REPLACE_EXISTING);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
-                Files.move(file.toPath(), fnew.toPath(), REPLACE_EXISTING);
+                Files.move(file.toPath(), new File(path+file.getName()).toPath(), REPLACE_EXISTING);
                 panel.log(file.getName()+" copied.");
             }
             panel.addProgress();
