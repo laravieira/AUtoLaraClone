@@ -1,6 +1,7 @@
 create-versioned-folder: true
 
 profile:
+  keep-old: false
   create-new: true
   name: L4R4
   concat-verion: true # will be concatenated on profile name, ex.: "L4R4" will be "L4R4 1.17.1"

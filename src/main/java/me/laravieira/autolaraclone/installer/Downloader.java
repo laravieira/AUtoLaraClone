@@ -7,6 +7,7 @@ import com.therandomlabs.curseapi.file.CurseFileFilter;
 import com.therandomlabs.curseapi.file.CurseFiles;
 import me.laravieira.autolaraclone.gui.Installing;
 import me.laravieira.autolaraclone.resource.*;
+import org.apache.commons.lang3.NotImplementedException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -29,6 +30,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Downloader {
+    public static final int CURSE_PROVIDER   = 3;
+    public static final int FABRIC_PROVIDER  = 4;
+    public static final int FORGE_PROVIDER   = 5;
+    public static final int SILDURS_PROVIDER = 6;
+    public static final int GITHUB_PROVIDER  = 7;
+    public static final int FILE_PROVIDER    = 8;
+
     private final Installing panel;
     private final String version;
     private final Loader loader;
@@ -57,11 +65,12 @@ public class Downloader {
 
             try {
                 switch (resource.getProvider()) {
-                    case Resource.FABRIC_PROVIDER -> downloadFromFabric(resource);
-                    case Resource.FORGE_PROVIDER -> downloadFromForge(resource);
-                    case Resource.CURSE_PROVIDER -> downloadFromCurse(resource);
-                    case Resource.GITHUB_PROVIDER -> downloadFromGitHub(resource);
-                    case Resource.FILE_PROVIDER -> downloadFromResources(resource);
+                    case Downloader.FABRIC_PROVIDER -> downloadFromFabric(resource);
+                    case Downloader.FORGE_PROVIDER -> downloadFromForge(resource);
+                    case Downloader.CURSE_PROVIDER -> downloadFromCurse(resource);
+                    case Downloader.GITHUB_PROVIDER -> downloadFromGitHub(resource);
+                    case Downloader.SILDURS_PROVIDER -> downloadFromSildurs(resource);
+                    case Downloader.FILE_PROVIDER -> downloadFromResources(resource);
                 }
                 panel.log(resource.getName() + " downloaded.");
             }catch (Exception e) {
@@ -69,6 +78,10 @@ public class Downloader {
             }
         }else panel.log("Skipping download of "+resource.getName());
         panel.addProgress();
+    }
+
+    private void downloadFromSildurs(Resource resource) {
+        throw new NotImplementedException("This provider is not supported.");
     }
 
     private void downloadFromResources(Resource resource) throws IOException {
@@ -142,12 +155,8 @@ public class Downloader {
             CurseFileFilter filter = new CurseFileFilter();
             filter.gameVersionStrings(this.version);
 
-            if (resource instanceof Mod) {
-                if (loader.getId() == Resource.FABRIC_LOADER)
-                    filter.and(p -> p.displayName().toLowerCase().contains("fabric"));
-                if (loader.getId() == Resource.FORGE_LOADER)
-                    filter.and(p -> p.displayName().toLowerCase().contains("forge"));
-            }
+            if (resource instanceof Mod)
+                filter.and(p -> p.displayName().toLowerCase().contains(loader.getIdentifier().toLowerCase()));
 
             final CurseFiles<CurseFile> files = optionalFiles.get();
             files.filter(filter);

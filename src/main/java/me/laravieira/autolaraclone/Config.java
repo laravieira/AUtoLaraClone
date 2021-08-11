@@ -13,7 +13,7 @@ public class Config {
     public static Config config;
 
     public static void load() {
-        config   = new Config("config.yml",   true);
+        config = new Config("config.yml", true);
     }
 
     private final Map<String, Object> yaml = new HashMap<>();

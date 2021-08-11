@@ -57,7 +57,7 @@ public class Installer extends Thread {
             copy(texture.getFile(), "resourcepacks");
         }for (Shader shader : Populate.shaders) {
             downloader.download(shader);
-            copy(shader.getFile(), "files/shaderpacks");
+            copy(shader.getFile(), "shaderpacks");
         }
 
         // Add new Profile
@@ -70,8 +70,7 @@ public class Installer extends Thread {
 
     // Bugs to fix:
     // 1. did not replace the old versions, just keep it there
-    // 2. downloading forge files instead of fabric
-    // 3. ignore Fabric-API copy action.
+    // 2. ignore Fabric-API copy action.
 
     private void copy(File file, String path) {
         try {
@@ -110,6 +109,8 @@ public class Installer extends Thread {
                 lara.javaArgs = profile.getString("java-args");
             String path = baseDir+File.separator+"launcher_profiles.json";
             JSONObject profiles = new JSONObject(Files.readString(new File(path).toPath()));
+            if(!profile.getBoolean("keep-old"))
+                profiles.getJSONObject("profiles").remove(lara.name);
             profiles.getJSONObject("profiles").put(lara.name, lara.toJSONObject());
             FileWriter writer = new FileWriter(path);
             writer.write(profiles.toString());

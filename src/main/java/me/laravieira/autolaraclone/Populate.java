@@ -1,5 +1,6 @@
 package me.laravieira.autolaraclone;
 
+import me.laravieira.autolaraclone.installer.Downloader;
 import me.laravieira.autolaraclone.resource.*;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class Populate {
             if(data.has("selected"))
                 loader.setChecked(data.getBoolean("selected"));
             loader.setProvider(providerByName(data.getString("provider")));
-            if(loader.getProvider() == Resource.FILE_PROVIDER) {
+            if(loader.getProvider() == Downloader.FILE_PROVIDER) {
                 String path = "files"+File.separator+"resourcepacks"+File.separator+data.getString("file");
                 loader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
@@ -66,7 +67,7 @@ public class Populate {
             if(data.has("selected"))
                 mod.setChecked(data.getBoolean("selected"));
             mod.setProvider(providerByName(data.getString("provider")));
-            if(mod.getProvider() == Resource.FILE_PROVIDER) {
+            if(mod.getProvider() == Downloader.FILE_PROVIDER) {
                 String path = "files"+File.separator+"mods"+File.separator+data.getString("file");
                 mod.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
@@ -85,7 +86,7 @@ public class Populate {
             if(data.has("selected"))
                 texture.setChecked(data.getBoolean("selected"));
             texture.setProvider(providerByName(data.getString("provider")));
-            if(texture.getProvider() == Resource.FILE_PROVIDER) {
+            if(texture.getProvider() == Downloader.FILE_PROVIDER) {
                 String path = "files"+File.separator+"resourcepacks"+File.separator+data.getString("file");
                 texture.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
@@ -104,7 +105,7 @@ public class Populate {
             if(data.has("selected"))
                 shader.setChecked(data.getBoolean("selected"));
             shader.setProvider(providerByName(data.getString("provider")));
-            if(shader.getProvider() == Resource.FILE_PROVIDER) {
+            if(shader.getProvider() == Downloader.FILE_PROVIDER) {
                 String path = "files"+File.separator+"shaderpacks"+File.separator+data.getString("file");
                 shader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
@@ -114,11 +115,11 @@ public class Populate {
 
     private int providerByName(String name) {
         switch(name) {
-            case "fabric-site": return Resource.FABRIC_PROVIDER;
-            case "forge-site": return Resource.FORGE_PROVIDER;
-            case "curse-forge": return Resource.CURSE_PROVIDER;
-            case "github-release": return Resource.GITHUB_PROVIDER;
-            default: return Resource.FILE_PROVIDER;
+            case "fabric-site": return Downloader.FABRIC_PROVIDER;
+            case "forge-site": return Downloader.FORGE_PROVIDER;
+            case "curse-forge": return Downloader.CURSE_PROVIDER;
+            case "github-release": return Downloader.GITHUB_PROVIDER;
+            default: return Downloader.FILE_PROVIDER;
         }
     }
 }
