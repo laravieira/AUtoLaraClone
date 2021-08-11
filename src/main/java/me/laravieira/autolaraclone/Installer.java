@@ -31,7 +31,7 @@ public class Installer extends Thread {
         this.loader = loader;
         this.preferences = preferences;
 
-        this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft";
+        this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft.shignima";
         if (Config.config.getBoolean("create-versioned-folder"))
             this.gameDir = this.baseDir + File.separator + this.version;
         else this.gameDir = this.baseDir;

@@ -23,6 +23,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
+import java.nio.file.ProviderNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +72,7 @@ public class Downloader {
                     case Downloader.GITHUB_PROVIDER -> downloadFromGitHub(resource);
                     case Downloader.SILDURS_PROVIDER -> downloadFromSildurs(resource);
                     case Downloader.FILE_PROVIDER -> downloadFromResources(resource);
+                    default -> throw new ProviderNotFoundException("This provider is not supported.");
                 }
                 panel.log(resource.getName() + " downloaded.");
             }catch (Exception e) {
@@ -151,15 +153,11 @@ public class Downloader {
     private void downloadFromCurse(Resource resource) throws CurseException {
         final Optional<CurseFiles<CurseFile>> optionalFiles = CurseAPI.files((int) resource.getId());
 
-        if (optionalFiles.isPresent()) {
-            CurseFileFilter filter = new CurseFileFilter();
-            filter.gameVersionStrings(this.version);
-
-            if (resource instanceof Mod)
-                filter.and(p -> p.displayName().toLowerCase().contains(loader.getIdentifier().toLowerCase()));
-
+        if(optionalFiles.isPresent()) {
             final CurseFiles<CurseFile> files = optionalFiles.get();
-            files.filter(filter);
+            files.filter(new CurseFileFilter().gameVersionStrings(this.version));
+            if (resource instanceof Mod)
+                files.filter(p -> p.displayName().toLowerCase().contains(loader.getIdentifier().toLowerCase()));
 
             files.first().downloadToDirectory(Path.of(folder));
             resource.setFile(new File(folder+files.first().nameOnDisk()));

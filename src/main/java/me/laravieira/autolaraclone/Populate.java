@@ -4,6 +4,7 @@ import me.laravieira.autolaraclone.installer.Downloader;
 import me.laravieira.autolaraclone.resource.*;
 
 import java.io.File;
+import java.nio.file.ProviderNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class Populate {
                 loader.setChecked(data.getBoolean("selected"));
             loader.setProvider(providerByName(data.getString("provider")));
             if(loader.getProvider() == Downloader.FILE_PROVIDER) {
-                String path = "files"+File.separator+"resourcepacks"+File.separator+data.getString("file");
+                String path = "loaders"+File.separator+data.getString("file");
                 loader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
             Populate.loaders.add(loader);
@@ -68,7 +69,7 @@ public class Populate {
                 mod.setChecked(data.getBoolean("selected"));
             mod.setProvider(providerByName(data.getString("provider")));
             if(mod.getProvider() == Downloader.FILE_PROVIDER) {
-                String path = "files"+File.separator+"mods"+File.separator+data.getString("file");
+                String path = "mods"+File.separator+data.getString("file");
                 mod.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
             Populate.mods.add(mod);
@@ -87,7 +88,7 @@ public class Populate {
                 texture.setChecked(data.getBoolean("selected"));
             texture.setProvider(providerByName(data.getString("provider")));
             if(texture.getProvider() == Downloader.FILE_PROVIDER) {
-                String path = "files"+File.separator+"resourcepacks"+File.separator+data.getString("file");
+                String path = "resourcepacks"+File.separator+data.getString("file");
                 texture.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
             Populate.textures.add(texture);
@@ -106,7 +107,7 @@ public class Populate {
                 shader.setChecked(data.getBoolean("selected"));
             shader.setProvider(providerByName(data.getString("provider")));
             if(shader.getProvider() == Downloader.FILE_PROVIDER) {
-                String path = "files"+File.separator+"shaderpacks"+File.separator+data.getString("file");
+                String path = "shaderpacks"+File.separator+data.getString("file");
                 shader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
             }
             Populate.shaders.add(shader);
@@ -119,7 +120,9 @@ public class Populate {
             case "forge-site": return Downloader.FORGE_PROVIDER;
             case "curse-forge": return Downloader.CURSE_PROVIDER;
             case "github-release": return Downloader.GITHUB_PROVIDER;
-            default: return Downloader.FILE_PROVIDER;
+            case "sildurs-site": return Downloader.SILDURS_PROVIDER;
+            case "file": return Downloader.FILE_PROVIDER;
+            default: throw new ProviderNotFoundException("This provide is not supported.");
         }
     }
 }

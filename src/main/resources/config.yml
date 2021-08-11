@@ -63,15 +63,6 @@ mods:
     page: https://www.curseforge.com/minecraft/mc-mods/modmenu
     loaders:
       - fabric
-  sodium:
-    id: 237553513
-    name: Sodium
-    selected: true
-    provider: github-release
-    tip: FPS boost mod
-    page: https://github.com/CaffeineMC/sodium-fabric/releases
-    loaders:
-      - fabric
   iris:
     id: 455508
     name: Iris
