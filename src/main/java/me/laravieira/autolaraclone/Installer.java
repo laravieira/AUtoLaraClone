@@ -32,7 +32,7 @@ public class Installer extends Thread {
         this.loader = loader;
         this.preferences = preferences;
 
-        this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft.shignima";
+        this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft";
         if (Config.config.getBoolean("create-versioned-folder"))
             this.gameDir = this.baseDir + File.separator + this.version;
         else this.gameDir = this.baseDir;
@@ -50,7 +50,7 @@ public class Installer extends Thread {
     }
 
     private String buildModIdentifier(String name) {
-        return name.replaceAll("[-1234567890\\._]|(jar)", "");
+        return name.replaceAll("[- +1234567890\\._]", "");
     }
 
     @Override

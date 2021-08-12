@@ -32,7 +32,7 @@ textures:
     id: 349116
     name: Default Dark Mode
     page: https://www.curseforge.com/minecraft/texture-packs/default-dark-mode
-    selected: true
+    selected: false
     provider: curse-forge
 
 shaders:
@@ -40,7 +40,7 @@ shaders:
     id: 349116
     name: Sildurs
     page: https://sildurs-shaders.github.io/downloads/
-    selected: true
+    selected: false
     provider: file
     file: SildursShaders-Vibrant-High-1.283.zip
 
@@ -66,7 +66,7 @@ mods:
   iris:
     id: 455508
     name: Iris
-    selected: true
+    selected: false
     provider: curse-forge
     tip: add support to shaders
     page: https://www.curseforge.com/minecraft/mc-mods/irisshaders
@@ -76,7 +76,7 @@ mods:
   entity-culling:
     id: 448233
     name: Entity Culling
-    selected: true
+    selected: false
     provider: curse-forge
     tip: improve GPU performance
     page: https://www.curseforge.com/minecraft/mc-mods/entityculling
@@ -86,7 +86,7 @@ mods:
   fps-reducer:
     id: 280294
     name: FPS Reducer
-    selected: true
+    selected: false
     provider: curse-forge
     tip: slowdown mine when inactive
     page: https://www.curseforge.com/minecraft/mc-mods/fps-reducer
@@ -96,7 +96,7 @@ mods:
   physics:
     id: 442735
     name: Physics
-    selected: true
+    selected: false
     provider: curse-forge
     tip: add cool physics
     page: https://www.curseforge.com/minecraft/mc-mods/physics-mod
@@ -106,7 +106,7 @@ mods:
   mini-hud:
     id: 244260
     name: Mini HUD
-    selected: true
+    selected: false
     provider: curse-forge
     tip: show TSP, FPS and more on screen
     page: https://www.curseforge.com/minecraft/mc-mods/minihud
@@ -116,7 +116,7 @@ mods:
   malilib:
     id: 303119
     name: MaLiLib
-    selected: true
+    selected: false
     provider: curse-forge
     tip: is required by MiniHUD
     page: https://www.curseforge.com/minecraft/mc-mods/malilib
@@ -126,7 +126,7 @@ mods:
   xaeros-minimap:
     id: 263420
     name: Xaeros Minimap
-    selected: true
+    selected: false
     provider: curse-forge
     tip: best mimi-map
     page: https://www.curseforge.com/minecraft/mc-mods/xaeros-minimap
@@ -136,7 +136,7 @@ mods:
   xaeros-worldmap:
     id: 317780
     name: Xaeros Worldmap
-    selected: true
+    selected: false
     provider: curse-forge
     tip: best world-map
     page: https://www.curseforge.com/minecraft/mc-mods/xaeros-world-map
@@ -146,7 +146,7 @@ mods:
   inventory-profiles-next:
     id: 495267
     name: Inventory Profiles Next
-    selected: true
+    selected: false
     provider: curse-forge
     tip: auto sort inventories
     page: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next

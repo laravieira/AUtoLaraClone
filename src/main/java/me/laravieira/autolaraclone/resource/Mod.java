@@ -15,6 +15,10 @@ public class Mod extends Resource {
         return loaders;
     }
 
+    public Loader[] getLoaders() {
+        return loaders;
+    }
+
     public void setLoaders(Loader[] loaders) {
         this.loaders = loaders;
     }

@@ -107,30 +107,31 @@ public class Downloader {
                 .collect(Collectors.toList())
                 .get(0)
                 .getBrowserDownloadUrl();
-        downloadFile(file);
-        resource.setFile(new File(folder + new File(file).getName()));
+        resource.setFile(downloadFile(file));
     }
 
     private void downloadFromFabric(Resource resource) throws IOException {
         String latest = listLinks("https://maven.fabricmc.net/net/fabricmc/fabric-installer/", "/fabric-installer", "", "/").get(0);
         String installer = listLinks(latest, "", "", ".jar").get(0);
-        downloadFile(installer);
-        resource.setFile(new File(folder + new File(installer).getName()));
+        resource.setFile(downloadFile(installer));
     }
 
     private void downloadFromForge(Resource resource) throws IOException {
         String url = "https://files.minecraftforge.net/net/minecraftforge/forge/index_"+this.version+".html";
         List<String> links = listLinks(url, "", "=https", ".jar");
-        downloadFile(links.get(0));
-        resource.setFile(new File(folder + new File(links.get(0)).getName()));
+        resource.setFile(downloadFile(links.get(0)));
     }
 
-    private void downloadFile(String file) throws IOException {
+    private File downloadFile(String file) throws IOException {
         ReadableByteChannel rbc = Channels.newChannel(new URL(file).openStream());
-        FileOutputStream fos = new FileOutputStream(folder+new File(file).getName());
+        String path = folder+(new File(file)).getName().replaceAll("\\+", "-");
+        FileOutputStream fos = new FileOutputStream(path);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
         rbc.close();
+        System.out.println("Path: "+path);
+        System.out.println("File: "+(new File(path).getPath()));
+        return new File(path);
     }
 
     private List<String> listLinks(String url, String contains, String notContains, String endWith) throws IOException {
@@ -150,17 +151,26 @@ public class Downloader {
         return links;
     }
 
-    private void downloadFromCurse(Resource resource) throws CurseException {
+    private void downloadFromCurse(Resource resource) throws CurseException, IOException {
         final Optional<CurseFiles<CurseFile>> optionalFiles = CurseAPI.files((int) resource.getId());
+        Path path = Path.of(folder);
 
         if(optionalFiles.isPresent()) {
             final CurseFiles<CurseFile> files = optionalFiles.get();
             files.filter(new CurseFileFilter().gameVersionStrings(this.version));
             if (resource instanceof Mod)
-                files.filter(p -> p.displayName().toLowerCase().contains(loader.getIdentifier().toLowerCase()));
-
-            files.first().downloadToDirectory(Path.of(folder));
-            resource.setFile(new File(folder+files.first().nameOnDisk()));
+                files.filter(p -> {
+                    for(Loader loader : ((Mod) resource).getLoaders()) {
+                        if(loader.getIdentifier().equals(this.loader.getIdentifier()))
+                            continue;
+                        if(p.displayName().toLowerCase().contains(loader.getIdentifier().toLowerCase()))
+                            return false;
+                    }
+                    return true;
+                });
+            CurseFile file = files.first();
+            path = file.downloadToDirectory(path);
         }
+        resource.setFile(path.toFile());
     }
 }
