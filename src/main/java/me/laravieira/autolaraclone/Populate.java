@@ -108,7 +108,7 @@ public class Populate {
             shader.setProvider(providerByName(data.getString("provider")));
             if(shader.getProvider() == Downloader.FILE_PROVIDER) {
                 String path = "shaderpacks"+File.separator+data.getString("file");
-                shader.setFile(new File(getClass().getClassLoader().getResource(path).getFile()));
+                shader.setFile(new File(path));
             }
             Populate.shaders.add(shader);
         });

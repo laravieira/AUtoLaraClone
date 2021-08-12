@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
+import javax.swing.*;
+
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Installer extends Thread {
@@ -81,6 +83,8 @@ public class Installer extends Thread {
 
         panel.log("Done! You can close this.");
         panel.addProgress(true);
+        JOptionPane.showConfirmDialog(this.panel, "Done!", "Done", JOptionPane.DEFAULT_OPTION);
+        System.exit(0);
     }
 
     // Bugs to fix:

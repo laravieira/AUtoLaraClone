@@ -15,10 +15,7 @@ import org.kohsuke.github.GHAsset;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -87,15 +84,17 @@ public class Downloader {
     }
 
     private void downloadFromResources(Resource resource) throws IOException {
-        String path = new File(folder).getName()+File.separator+resource.getFile().getName();
+        String path = resource.getFile().getPath();
         InputStream stream = getClass().getClassLoader().getResource(path).openStream();
 
+        path = folder+resource.getFile().getName();
         ReadableByteChannel rbc = Channels.newChannel(stream);
-        FileOutputStream fos = new FileOutputStream(folder+new File(path).getName());
+        FileOutputStream fos = new FileOutputStream(path);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+
         fos.close();
         rbc.close();
-        resource.setFile(new File(folder + new File(path).getName()));
+        resource.setFile(new File(path));
     }
 
     private void downloadFromGitHub(Resource resource) throws IOException {
