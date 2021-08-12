@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class Installer extends Thread {
         this.preferences = preferences;
 
         this.baseDir = System.getenv("APPDATA") + File.separator + ".minecraft";
-        if (Config.config.getBoolean("create-versioned-folder"))
+        if (preferences.get("create-versioned-folder"))
             this.gameDir = this.baseDir + File.separator + this.version;
         else this.gameDir = this.baseDir;
         new File(this.gameDir).mkdirs();
@@ -51,7 +52,7 @@ public class Installer extends Thread {
             });
     }
 
-    private String buildModIdentifier(String name) {
+    private String buildModIdentifier(@NotNull String name) {
         return name.replaceAll("[- +1234567890\\._]", "");
     }
 
@@ -87,10 +88,7 @@ public class Installer extends Thread {
         System.exit(0);
     }
 
-    // Bugs to fix:
-    // 1. ignore Fabric-API copy action.
-
-    private void copy(File file, String path) {
+    private void copy(@NotNull File file, String path) {
         try {
             if(file.exists()) {
                 path = gameDir+File.separator+path+File.separator;
@@ -119,7 +117,7 @@ public class Installer extends Thread {
 
     private void addProfile(String versionId) {
         Config profile = Config.config.get("profile");
-        if(!profile.getBoolean("create-new"))
+        if(!preferences.get("create-new"))
             return;
         try {
             String name = profile.getString("name");

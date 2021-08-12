@@ -1,5 +1,6 @@
 package me.laravieira.autolaraclone.gui;
 
+import me.laravieira.autolaraclone.Config;
 import me.laravieira.autolaraclone.Populate;
 import me.laravieira.autolaraclone.resource.*;
 import me.laravieira.autolaraclone.Installer;
@@ -85,8 +86,8 @@ public class Select extends JPanel {
         right.add(new JSeparator());
 
         preferences = new HashMap<>();
-        right.add(buildPrefCheckBox("create-ver-dir", "Versioned directory",  true));
-        right.add(buildPrefCheckBox("create-profile", "Create new profile",   true));
+        right.add(buildPrefCheckBox("create-ver-dir", "Versioned directory",  Config.config.getBoolean("create-versioned-folder")));
+        right.add(buildPrefCheckBox("create-profile", "Create new profile",   Config.config.get("profile").getBoolean("create-new")));
         //right.add(buildPrefCheckBox("import-lara",    "Import lara settings", true));
         //right.add(buildPrefCheckBox("import-saves",   "Copy old saves",       true));
         right.add(Box.createVerticalGlue());
