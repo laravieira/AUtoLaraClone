@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.logging.Logger;
 
 
 public class AutoLaraClone extends JFrame {
@@ -21,8 +22,12 @@ public class AutoLaraClone extends JFrame {
     public static final String ALC_NAME   = "L4R4V131R4";
     public static final String ALC_TITLE  = "Auto Lara Clone";
     public static final String ALC_ABOUT  = "About";
+    public static Logger logger;
 
     public static void main(String[] args) {
+        System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$s] %5$s");
+        logger = Logger.getLogger(ALC_TITLE);
+        logger.info("Starting...");
         LafManager.install(new DarculaTheme());
         LafManager.themeForPreferredStyle(getPreferredThemeStyle());
         Config.load();

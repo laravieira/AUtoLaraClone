@@ -86,8 +86,11 @@ public class Select extends JPanel {
         right.add(new JSeparator());
 
         preferences = new HashMap<>();
-        right.add(buildPrefCheckBox("create-ver-dir", "Versioned directory",  Config.config.getBoolean("create-versioned-folder")));
-        right.add(buildPrefCheckBox("create-profile", "Create new profile",   Config.config.get("profile").getBoolean("create-new")));
+        preferences.put("create-versioned-folder", Config.config.getBoolean("create-versioned-folder"));
+        preferences.put("create-new", Config.config.getBoolean("profile.create-new"));
+
+        right.add(buildPrefCheckBox("create-ver-dir", "Versioned directory",  preferences.get("create-versioned-folder")));
+        right.add(buildPrefCheckBox("create-profile", "Create new profile",   preferences.get("create-new")));
         //right.add(buildPrefCheckBox("import-lara",    "Import lara settings", true));
         //right.add(buildPrefCheckBox("import-saves",   "Copy old saves",       true));
         right.add(Box.createVerticalGlue());

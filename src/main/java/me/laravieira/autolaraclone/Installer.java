@@ -10,6 +10,7 @@ import me.laravieira.autolaraclone.resource.Texture;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,34 +59,39 @@ public class Installer extends Thread {
 
     @Override
     public void run() {
-        panel.log("Downloading updated resources...");
+        AutoLaraClone.logger.info("Downloading updated resources...");
+        try {
+            Path temp = Files.createTempDirectory(AutoLaraClone.ALC_TITLE);
+            AutoLaraClone.logger.info("Using temp folder "+temp.toString());
+            Downloader downloader = new Downloader(this.panel, this.version, this.loader, temp);
 
-        Downloader downloader = new Downloader(this.panel, this.version, this.loader);
+            // Download and install loader
+            downloader.download(loader);
+            runJarAndWait(loader.getFile().getPath());
 
-        // Download and install loader
-        downloader.download(loader);
-        runJarAndWait(loader.getFile().getPath());
+            // Download and copy all other resources
+            for (Mod mod : Populate.mods) {
+                downloader.download(mod);
+                copy(mod.getFile(), "mods");
+            }for(Texture texture :Populate.textures) {
+                downloader.download(texture);
+                copy(texture.getFile(), "resourcepacks");
+            }for (Shader shader : Populate.shaders) {
+                downloader.download(shader);
+                copy(shader.getFile(), "shaderpacks");
+            }
 
-        // Download and copy all other resources
-        for (Mod mod : Populate.mods) {
-            downloader.download(mod);
-            copy(mod.getFile(), "mods");
-        }for(Texture texture :Populate.textures) {
-            downloader.download(texture);
-            copy(texture.getFile(), "resourcepacks");
-        }for (Shader shader : Populate.shaders) {
-            downloader.download(shader);
-            copy(shader.getFile(), "shaderpacks");
+            // Add new Profile
+            String name = loader.getFile().getName();
+            addProfile(findVersionId(name));
+
+            panel.log("Done! You can close this.");
+            panel.addProgress(true);
+            JOptionPane.showConfirmDialog(this.panel, "Done!", "Done", JOptionPane.DEFAULT_OPTION);
+            //System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // Add new Profile
-        String name = loader.getFile().getName();
-        addProfile(findVersionId(name));
-
-        panel.log("Done! You can close this.");
-        panel.addProgress(true);
-        JOptionPane.showConfirmDialog(this.panel, "Done!", "Done", JOptionPane.DEFAULT_OPTION);
-        System.exit(0);
     }
 
     private void copy(@NotNull File file, String path) {

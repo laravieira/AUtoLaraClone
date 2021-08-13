@@ -1,10 +1,17 @@
 package me.laravieira.autolaraclone.gui;
 
+import com.github.weisj.darklaf.log.LogFormatter;
+import me.laravieira.autolaraclone.AutoLaraClone;
 import me.laravieira.autolaraclone.Populate;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.StreamHandler;
 
 public class Installing extends JPanel {
     private final JTextArea log;
@@ -29,6 +36,15 @@ public class Installing extends JPanel {
         DefaultCaret caret = (DefaultCaret)this.log.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         this.log.append("Loading...");
+
+        OutputStream stream = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                log.append(""+(char)b);
+            }
+        };
+        StreamHandler show = new StreamHandler(stream, new LogFormatter());
+        AutoLaraClone.logger.addHandler(show);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(bar);

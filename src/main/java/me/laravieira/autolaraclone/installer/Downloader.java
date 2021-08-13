@@ -40,25 +40,26 @@ public class Downloader {
     private final Loader loader;
     private String folder;
 
-    public Downloader(Installing panel, String version, Loader loader) {
+    public Downloader(Installing panel, String version, Loader loader, Path tempFolder) {
         this.panel = panel;
         this.version = version;
         this.loader = loader;
+        this.folder = tempFolder.toString();
     }
 
     public void download(Resource resource) {
         if (resource.getChecked()) {
             panel.log("Downloading "+resource.getName());
             if(resource instanceof Loader)
-                this.folder = "temp"+File.separator;
+                this.folder = folder+File.separator;
             if(resource instanceof Mod)
-                this.folder = "temp"+File.separator+ "mods" +File.separator;
+                this.folder = folder+File.separator+ "mods" +File.separator;
             if(resource instanceof Texture)
-                this.folder = "temp"+File.separator+"resourcepacks"+File.separator;
+                this.folder = folder+File.separator+"resourcepacks"+File.separator;
             if(resource instanceof Shader)
-                this.folder = "temp"+File.separator+ "shaderpacks" +File.separator;
+                this.folder = folder+File.separator+ "shaderpacks" +File.separator;
             if(resource instanceof Setting)
-                this.folder = "temp"+File.separator+"config"+File.separator;
+                this.folder = folder+File.separator+"config"+File.separator;
             new File(folder).mkdirs();
 
             try {
